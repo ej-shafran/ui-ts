@@ -293,8 +293,8 @@ export type Render<TState, TEvent> = (
   state: Readonly<TState>
 ) => Elem;
 export type Update<TState, TEvent> = (
-  state: Readonly<TState>
-) => (e: TEvent) => TState;
+  e: TEvent
+) => (state: Readonly<TState>) => TState;
 export type App = (root: HTMLElement) => IOO.IOOption<void>;
 
 export const createApp =
@@ -312,7 +312,7 @@ export const createApp =
           let rootElem: O.Option<Elem> = O.none;
 
           function trigger(e: TEvent) {
-            state = update(state)(e);
+            state = update(e)(state);
             rootElem = O.some(render(trigger, state));
             rootInst = reconcile(container, rootElem, rootInst)();
           }
