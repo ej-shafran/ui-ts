@@ -13,6 +13,10 @@ export function createTextNode(data: string) {
   return IO.of(document.createTextNode(data));
 }
 
+export function createDocumentFragment() {
+  return IO.of(document.createDocumentFragment());
+}
+
 export const contains: (child: Node) => (parent: Node) => IO.IO<boolean> =
   (child) => (parent) =>
     IO.of(parent.contains(child));
