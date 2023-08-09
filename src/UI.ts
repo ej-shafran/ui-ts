@@ -280,7 +280,10 @@ const reconcile: (
     return pipe(elem, IOO.fromOption, IOO.flatMapIO(reconcileAdd(container)));
   } else if (O.isNone(elem)) {
     return pipe(inst, IOO.fromOption, IOO.flatMap(reconcileRemove(container)));
-  } else if (elem.value._type !== inst.value.elem._type) {
+  } else if (
+    elem.value._type !== inst.value.elem._type ||
+    (elem.value as RootElem).tagName !== (inst.value.elem as RootElem).tagName
+  ) {
     return reconcileReplace(container, elem.value, inst.value);
   } else {
     return pipe(reconcileUpdate(elem.value, inst.value), IOO.fromIO);
