@@ -28,6 +28,9 @@ Added in v1.0.0
   - [Node](#node)
   - [TagName (type alias)](#tagname-type-alias)
   - [UINode (type alias)](#uinode-type-alias)
+- [utils](#utils)
+  - [Produce (type alias)](#produce-type-alias)
+  - [produce](#produce)
 
 ---
 
@@ -97,7 +100,7 @@ export declare const createApp: <TState, TEvent>(
 
 ```ts
 import { ADT, match } from 'ts-adt'
-import * as UI from 'ui-ts/lib/UI'
+import * as UI from 'ui-ts'
 
 type Event = ADT<{
   Click: {}
@@ -119,9 +122,10 @@ const render: UI.Render<State, Event> = (trigger, state) =>
   UI.element('button', { onClick: () => trigger(Click) }, 'Count: ', state.count)
 
 const update: UI.Update<State, Event> = match({
-  Click:
-    () =>
-    ({ count }: State) => ({ count: count + 1 }),
+  Click: () =>
+    UI.produce<State>((draft) => {
+      draft.count++
+    }),
 })
 
 // this is an `App` that can later be run with `runApp`
@@ -351,6 +355,32 @@ Added in v1.0.0
 
 ```ts
 type UINode = string | number | boolean | Element | UINode[]
+```
+
+Added in v1.0.0
+
+# utils
+
+## Produce (type alias)
+
+**Signature**
+
+```ts
+export type Produce = <TState>(
+  recipe: (state: Draft<TState>, initialState: TState) => TState | void | undefined
+) => (state?: TState) => TState
+```
+
+Added in v1.0.0
+
+## produce
+
+A thin wrapper around `immer`'s `produce` that's easier to type within an `Update` function.
+
+**Signature**
+
+```ts
+export declare const produce: Produce
 ```
 
 Added in v1.0.0

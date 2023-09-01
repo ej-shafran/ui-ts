@@ -6,27 +6,10 @@ parent: Modules
 
 ## index overview
 
-Added in v0.0.0
+Added in v1.0.0
 
 ---
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [none](#none)
-  - [hello](#hello)
-
 ---
-
-# none
-
-## hello
-
-Is a cool variable
-
-**Signature**
-
-```ts
-export declare const hello: 'Hello'
-```
-
-Added in v0.0.0

@@ -399,7 +399,7 @@ export type App = (root: HTMLElement) => IOO.IOOption<void>;
 /**
  * @example
  * import { ADT, match } from 'ts-adt';
- * import * as UI from 'ui-ts/lib/UI';
+ * import * as UI from 'ui-ts';
  *
  * type Event = ADT<{
  *   Click: {};
@@ -421,7 +421,9 @@ export type App = (root: HTMLElement) => IOO.IOOption<void>;
  *    UI.element("button", { onClick: () => trigger(Click) }, "Count: ", state.count);
  *
  * const update: UI.Update<State, Event> = match({
- *   Click: () => ({ count }: State) => ({ count: count + 1 }),
+ *   Click: () => UI.produce<State>((draft) => {
+ *    draft.count++;
+ *   }),
  * });
  *
  * // this is an `App` that can later be run with `runApp`
@@ -498,6 +500,10 @@ export const runApp: (app: App, rootId?: string) => void = (
   }
 };
 
+/**
+ * @category utils
+ * @since 1.0.0
+ */
 export type Produce = <TState>(
   recipe: (
     state: Draft<TState>,
@@ -505,4 +511,10 @@ export type Produce = <TState>(
   ) => TState | void | undefined,
 ) => (state?: TState) => TState;
 
+/**
+ * A thin wrapper around `immer`'s `produce` that's easier to type within an `Update` function.
+ *
+ * @category utils
+ * @since 1.0.0
+ */
 export const produce: Produce = produce_;
