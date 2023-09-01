@@ -19,6 +19,10 @@
 
     "checkJs": true,
 
+    "jsx": "react",
+    "jsxFactory": "UI.element",
+    "jsxFragmentFactory": "UI.fragment",
+
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
