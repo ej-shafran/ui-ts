@@ -154,8 +154,8 @@ export const removeEventListener: (
  * @since 1.0.0
  */
 export const getElementById: (
-  id: string,
-) => (document: Document) => IOO.IOOption<HTMLElement> = (id) => (document) =>
+  document: Document,
+) => (id: string) => IOO.IOOption<HTMLElement> = (document) => (id) =>
   pipe(
     IOO.fromIO(() => document.getElementById(id)),
     IOO.flatMap((element) => (element ? IOO.some(element) : IOO.none)),

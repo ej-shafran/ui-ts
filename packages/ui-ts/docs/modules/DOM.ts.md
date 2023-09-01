@@ -114,7 +114,7 @@ Returns a reference to the first object with the specified value of the ID attri
 **Signature**
 
 ```ts
-export declare const getElementById: (id: string) => (document: Document) => IOO.IOOption<HTMLElement>
+export declare const getElementById: (document: Document) => (id: string) => IOO.IOOption<HTMLElement>
 ```
 
 Added in v1.0.0
