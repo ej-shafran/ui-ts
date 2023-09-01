@@ -7,6 +7,7 @@ import * as IO from "fp-ts/IO";
 import * as IOO from "fp-ts/IOOption";
 import * as R from "fp-ts/Record";
 import * as O from "fp-ts/Option";
+import { Draft, produce as produce_ } from "immer";
 import * as DOM from "./DOM";
 
 /**
@@ -496,3 +497,12 @@ export const runApp: (app: App, rootId?: string) => void = (
     );
   }
 };
+
+export type Produce = <TState>(
+  recipe: (
+    state: Draft<TState>,
+    initialState: TState,
+  ) => TState | void | undefined,
+) => (state?: TState) => TState;
+
+export const produce: Produce = produce_;

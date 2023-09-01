@@ -26,6 +26,7 @@
   "license": "ISC",
   "dependencies": {
     "fp-ts": "^2.16.1",
+    "immer": "^10.0.2",
     "ts-adt": "^2.1.2"
   },
   "devDependencies": {
