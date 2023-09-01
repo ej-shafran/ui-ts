@@ -9,7 +9,7 @@
     "compile:watch": "tsc -w --noEmit",
     "prepublish": "npm run build",
     "pretty": "prettier . -w",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx --max-warnings 0",
+    "lint": "eslint ./src --ext .js,.jsx,.ts,.tsx --max-warnings 0",
     "types": "npx @arethetypeswrong/cli --pack",
     "test": "vitest",
     "spell": "cspell '**/*.*'"
