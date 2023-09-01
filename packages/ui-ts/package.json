@@ -19,6 +19,11 @@
       "require": "./lib/index.js",
       "import": "./lib/index.mjs",
       "types": "./lib/index.d.ts"
+    },
+    "./lib/*": {
+      "require": "./lib/*.js",
+      "import": "./lib/*.mjs",
+      "types": "./lib/*.d.ts"
     }
   },
   "keywords": [],
