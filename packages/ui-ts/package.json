@@ -2,10 +2,10 @@
   "name": "ui-ts",
   "version": "1.0.0",
   "description": "",
-  "main": "./dist/index.js",
+  "main": "./lib/index.js",
   "homepage": "http://127.0.0.1",
   "scripts": {
-    "build": "tsup src/** --dts --format esm,cjs",
+    "build": "tsup src/** --dts --format esm,cjs --out-dir lib",
     "compile:watch": "tsc -w --noEmit",
     "prepublish": "npm run build",
     "pretty": "prettier . -w",
@@ -16,9 +16,9 @@
   },
   "exports": {
     ".": {
-      "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
+      "require": "./lib/index.js",
+      "import": "./lib/index.mjs",
+      "types": "./lib/index.d.ts"
     }
   },
   "keywords": [],
