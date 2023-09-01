@@ -1,0 +1,44 @@
+{
+  "name": "ui-ts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./dist/index.js",
+  "homepage": "http://127.0.0.1",
+  "scripts": {
+    "build": "tsup src/** --dts --format esm,cjs",
+    "compile:watch": "tsc -w --noEmit",
+    "prepublish": "npm run build",
+    "pretty": "prettier . -w",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx --max-warnings 0",
+    "types": "npx @arethetypeswrong/cli --pack",
+    "test": "vitest",
+    "spell": "cspell '**/*.*'"
+  },
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "keywords": [],
+  "author": "ej-shafran",
+  "license": "ISC",
+  "dependencies": {
+    "fp-ts": "^2.16.1"
+  },
+  "devDependencies": {
+    "@arethetypeswrong/cli": "^0.9.0",
+    "@fast-check/vitest": "^0.0.6",
+    "@typescript-eslint/eslint-plugin": "^6.5.0",
+    "@typescript-eslint/parser": "^6.5.0",
+    "cspell": "^7.3.2",
+    "eslint": "^8.48.0",
+    "fast-check": "^3.12.0",
+    "prettier": "^3.0.3",
+    "prettier-plugin-jsdoc": "^1.0.1",
+    "tsup": "^7.2.0",
+    "typescript": "^5.2.2",
+    "vitest": "^0.34.3"
+  }
+}
