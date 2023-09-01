@@ -13,6 +13,9 @@ importers:
       fp-ts:
         specifier: ^2.16.1
         version: 2.16.1
+      ts-adt:
+        specifier: ^2.1.2
+        version: 2.1.2
     devDependencies:
       '@arethetypeswrong/cli':
         specifier: ^0.9.0
@@ -2841,6 +2844,10 @@ packages:
     resolution: {integrity: sha512-L0Orpi8qGpRG//Nd+H90vFB+3iHnue1zSSGmNOOCh1GLJ7rUKVwV2HvijphGQS2UmhUZewS9VgvxYIdgr+fG1A==}
     hasBin: true
     dev: true
+
+  /ts-adt@2.1.2:
+    resolution: {integrity: sha512-UD0lr7eyiBjxogQjb1xMCjF7skrnxGZLNm4iROeU3ky5tJzXN0yQkkS4DfNGfM4RaUGMhgyrzf2wUynqK8AdWQ==}
+    dev: false
 
   /ts-api-utils@1.0.2(typescript@5.2.2):
     resolution: {integrity: sha512-Cbu4nIqnEdd+THNEsBdkolnOXhg0I8XteoHaEKgvsxpsbWda4IsUut2c187HxywQCvveojow0Dgw/amxtSKVkQ==}

@@ -25,7 +25,8 @@
   "author": "ej-shafran",
   "license": "ISC",
   "dependencies": {
-    "fp-ts": "^2.16.1"
+    "fp-ts": "^2.16.1",
+    "ts-adt": "^2.1.2"
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.9.0",
