@@ -1,13 +1,16 @@
 /* @since 1.0.0 */
 
-import { ADT, match } from "ts-adt";
 import { pipe } from "fp-ts/function";
 import * as A from "fp-ts/Array";
 import * as IO from "fp-ts/IO";
 import * as IOO from "fp-ts/IOOption";
 import * as R from "fp-ts/Record";
 import * as O from "fp-ts/Option";
+import * as TU from "fp-ts/Tuple";
+
+import { ADT, match } from "ts-adt";
 import { Draft, produce as produce_ } from "immer";
+
 import * as DOM from "./DOM";
 
 /**
@@ -159,15 +162,26 @@ const addProp: PropertyCallback = matchProp(
   DOM.setAttribute,
 );
 
+const mapProps = (
+  cb: PropertyCallback,
+  domNode: HTMLElement,
+  props: Record<string, unknown>,
+) =>
+  pipe(
+    props,
+    R.mapWithIndex((k, a) => pipe(domNode, cb(k, a))),
+    R.toArray,
+    A.map(TU.snd),
+    IO.sequenceArray,
+  );
+
 const updateDOM =
   (prev: Record<string, unknown>, next: Record<string, unknown>) =>
   (domNode: HTMLElement): IO.IO<HTMLElement> => {
     return pipe(
-      prev,
-      R.mapWithIndex((k, a) => pipe(domNode, removeProp(k, a))),
-      () => next,
-      R.mapWithIndex((k, a) => pipe(domNode, addProp(k, a))),
-      () => () => domNode,
+      () => mapProps(removeProp, domNode, prev),
+      IO.flatMap(() => mapProps(addProp, domNode, next)),
+      IO.map(() => domNode),
     );
   };
 
@@ -194,12 +208,12 @@ const createInstance: (elem: Element) => IO.IO<Instance> = (elem) => {
                 Instance[]
               >,
           ),
-          IO.tap(
-            ({ childInsts, domNode }) =>
-              () =>
-                childInsts.map((child) =>
-                  DOM.appendChild(child.domNode)(domNode),
-                ),
+          IO.tap(({ childInsts, domNode }) =>
+            IO.sequenceArray(
+              childInsts.map((child) =>
+                pipe(domNode, DOM.appendChild(child.domNode)),
+              ),
+            ),
           ),
           IO.tap(({ domNode }) => () => {
             if (hasOnInsert(elem.props)) {
@@ -282,22 +296,17 @@ const reconcileChildren = (
     elem.children.length,
   );
 
-  const childInsts = [] as Instance[];
-  for (let i = 0; i < maxLength; i++) {
-    const childElem = O.fromNullable(elem.children[i]);
-    const childInst = O.fromNullable(
-      (inst as Instance & { childInsts: Instance[] }).childInsts[i],
-    );
-
-    const childIO = reconcile(inst.domNode, childElem, childInst);
-
-    pipe(
-      childIO(),
-      O.map((inst) => childInsts.push(inst)),
-    );
-  }
-
-  return childInsts;
+  return pipe(
+    A.makeBy(maxLength, (i) => {
+      const childElem = O.fromNullable(elem.children[i]);
+      const childInst = O.fromNullable(
+        (inst as { childInsts: Instance[] }).childInsts[i],
+      );
+      return reconcile(inst.domNode, childElem, childInst);
+    }),
+    IO.sequenceArray,
+    IO.map((arr) => pipe(arr, (arr) => A.compact(arr as O.Option<Instance>[]))),
+  );
 };
 
 const reconcileUpdate: (elem: Element, inst: Instance) => IO.IO<Instance> = (
@@ -317,11 +326,14 @@ const reconcileUpdate: (elem: Element, inst: Instance) => IO.IO<Instance> = (
 
         const childInsts = reconcileChildren(elem, inst);
 
-        return () => ({
-          elem,
+        return pipe(
           childInsts,
-          domNode: inst.domNode as HTMLElement,
-        });
+          IO.map((childInsts) => ({
+            childInsts,
+            elem,
+            domNode: inst.domNode as HTMLElement,
+          })),
+        );
       },
       Text: (elem) => {
         if (elem.value !== (inst.elem as TextElement).value) {
@@ -333,9 +345,13 @@ const reconcileUpdate: (elem: Element, inst: Instance) => IO.IO<Instance> = (
       Fragment: (elem) => {
         const childInsts = reconcileChildren(elem, inst);
 
-        (inst as Instance & { childInsts: Instance[] }).childInsts = childInsts;
-
-        return () => inst;
+        return pipe(
+          childInsts,
+          IO.map((childInsts) => ({
+            ...inst,
+            childInsts,
+          })),
+        );
       },
     }),
   );
