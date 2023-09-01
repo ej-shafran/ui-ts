@@ -40,8 +40,8 @@ Adds an event listener to `node`. See the [MDN Reference](https://developer.mozi
 export declare const addEventListener: (
   event: string,
   listener: EventListenerOrEventListenerObject,
-  options?: boolean | AddEventListenerOptions | undefined
-) => (node: Node) => IO.IO<void>
+  options?: boolean | AddEventListenerOptions | undefined,
+) => (node: Node) => IO.IO<void>;
 ```
 
 Added in v1.0.0
@@ -51,7 +51,9 @@ Added in v1.0.0
 **Signature**
 
 ```ts
-export declare const appendChild: (child: Node) => (parent: Node) => IO.IO<Node>
+export declare const appendChild: (
+  child: Node,
+) => (parent: Node) => IO.IO<Node>;
 ```
 
 Added in v1.0.0
@@ -63,7 +65,9 @@ Returns an IO of `true` if `child` is an inclusive descendant of `parent`, and a
 **Signature**
 
 ```ts
-export declare const contains: (child: Node) => (parent: Node) => IO.IO<boolean>
+export declare const contains: (
+  child: Node,
+) => (parent: Node) => IO.IO<boolean>;
 ```
 
 Added in v1.0.0
@@ -75,7 +79,7 @@ Creates a new document.
 **Signature**
 
 ```ts
-export declare function createDocumentFragment(): IO.IO<DocumentFragment>
+export declare function createDocumentFragment(): IO.IO<DocumentFragment>;
 ```
 
 Added in v1.0.0
@@ -89,8 +93,8 @@ Creates an instance of the element for the specified tag.
 ```ts
 export declare function createElement<K extends keyof HTMLElementTagNameMap>(
   tagName: K,
-  options?: ElementCreationOptions
-): IO.IO<HTMLElementTagNameMap[K]>
+  options?: ElementCreationOptions,
+): IO.IO<HTMLElementTagNameMap[K]>;
 ```
 
 Added in v1.0.0
@@ -102,7 +106,7 @@ Creates a text string from the specified value.
 **Signature**
 
 ```ts
-export declare function createTextNode(data: string): IO.IO<Text>
+export declare function createTextNode(data: string): IO.IO<Text>;
 ```
 
 Added in v1.0.0
@@ -114,7 +118,9 @@ Returns a reference to the first object with the specified value of the ID attri
 **Signature**
 
 ```ts
-export declare const getElementById: (document: Document) => (id: string) => IOO.IOOption<HTMLElement>
+export declare const getElementById: (
+  document: Document,
+) => (id: string) => IOO.IOOption<HTMLElement>;
 ```
 
 Added in v1.0.0
@@ -124,7 +130,9 @@ Added in v1.0.0
 **Signature**
 
 ```ts
-export declare const removeAttribute: (attribute: string) => (element: HTMLElement) => IO.IO<void>
+export declare const removeAttribute: (
+  attribute: string,
+) => (element: HTMLElement) => IO.IO<void>;
 ```
 
 Added in v1.0.0
@@ -137,7 +145,9 @@ If it _is_ contained, the child is removed from the within the `parent` and retu
 **Signature**
 
 ```ts
-export declare const removeChild: (child: Node) => (parent: Node) => IOO.IOOption<Node>
+export declare const removeChild: (
+  child: Node,
+) => (parent: Node) => IOO.IOOption<Node>;
 ```
 
 Added in v1.0.0
@@ -152,8 +162,8 @@ Removes the event listener in `node`'s event listener list with the same type, c
 export declare const removeEventListener: (
   event: string,
   listener: EventListenerOrEventListenerObject,
-  options?: boolean | EventListenerOptions | undefined
-) => (node: Node) => IO.IO<void>
+  options?: boolean | EventListenerOptions | undefined,
+) => (node: Node) => IO.IO<void>;
 ```
 
 Added in v1.0.0
@@ -166,7 +176,10 @@ If it _is_ contained, `oldChild` is replaced by `newChild` and returned within a
 **Signature**
 
 ```ts
-export declare const replaceChild: (newChild: Node, oldChild: Node) => (parent: Node) => IOO.IOOption<Node>
+export declare const replaceChild: (
+  newChild: Node,
+  oldChild: Node,
+) => (parent: Node) => IOO.IOOption<Node>;
 ```
 
 Added in v1.0.0
@@ -178,7 +191,10 @@ Sets the value of `element`'s first attribute whose qualified name is `attribute
 **Signature**
 
 ```ts
-export declare const setAttribute: (attribute: string, value: string) => (element: HTMLElement) => IO.IO<void>
+export declare const setAttribute: (
+  attribute: string,
+  value: string,
+) => (element: HTMLElement) => IO.IO<void>;
 ```
 
 Added in v1.0.0

@@ -43,7 +43,7 @@ Return type of `createApp`.
 **Signature**
 
 ```ts
-export type App = (root: HTMLElement) => IOO.IOOption<void>
+export type App = (root: HTMLElement) => IOO.IOOption<void>;
 ```
 
 Added in v1.0.0
@@ -55,7 +55,10 @@ Type of the `render` callback of `createApp`.
 **Signature**
 
 ```ts
-export type Render<TState, TEvent> = (trigger: Trigger<TEvent>, state: Readonly<TState>) => Element
+export type Render<TState, TEvent> = (
+  trigger: Trigger<TEvent>,
+  state: Readonly<TState>,
+) => Element;
 ```
 
 Added in v1.0.0
@@ -67,7 +70,7 @@ Type of the `trigger` param passed to the `render` callback of `createApp`.
 **Signature**
 
 ```ts
-export type Trigger<TEvent> = (e: TEvent) => void
+export type Trigger<TEvent> = (e: TEvent) => void;
 ```
 
 Added in v1.0.0
@@ -79,7 +82,9 @@ Type of the `update` callback of `createApp`.
 **Signature**
 
 ```ts
-export type Update<TState, TEvent> = (e: TEvent) => (state: Readonly<TState>) => TState
+export type Update<TState, TEvent> = (
+  e: TEvent,
+) => (state: Readonly<TState>) => TState;
 ```
 
 Added in v1.0.0
@@ -92,44 +97,49 @@ Added in v1.0.0
 export declare const createApp: <TState, TEvent>(
   initial: TState,
   render: Render<TState, TEvent>,
-  update: Update<TState, TEvent>
-) => App
+  update: Update<TState, TEvent>,
+) => App;
 ```
 
 **Example**
 
 ```ts
-import { ADT, match } from 'ts-adt'
-import * as UI from 'ui-ts'
+import { ADT, match } from "ts-adt";
+import * as UI from "ui-ts";
 
 type Event = ADT<{
-  Click: {}
-}>
+  Click: {};
+}>;
 
-const Click: Event = { _type: 'Click' }
+const Click: Event = { _type: "Click" };
 
 type State = {
-  count: number
-}
+  count: number;
+};
 
 const initial: State = {
   count: 0,
-}
+};
 
 // you'll probably use JSX for this, like
 // <button onClick={() => trigger(Click)}>Count: {state.count}</button>
 const render: UI.Render<State, Event> = (trigger, state) =>
-  UI.element('button', { onClick: () => trigger(Click) }, 'Count: ', state.count)
+  UI.element(
+    "button",
+    { onClick: () => trigger(Click) },
+    "Count: ",
+    state.count,
+  );
 
 const update: UI.Update<State, Event> = match({
   Click: () =>
     UI.produce<State>((draft) => {
-      draft.count++
+      draft.count++;
     }),
-})
+});
 
 // this is an `App` that can later be run with `runApp`
-const app = UI.createApp(initial, render, update)
+const app = UI.createApp(initial, render, update);
 ```
 
 Added in v1.0.0
@@ -141,7 +151,7 @@ Run an `App` with a certain HTML elemtn, given that element's ID.
 **Signature**
 
 ```ts
-export declare const runApp: (app: App, rootId?: string | undefined) => void
+export declare const runApp: (app: App, rootId?: string | undefined) => void;
 ```
 
 Added in v1.0.0
@@ -153,7 +163,7 @@ A low-level function for running an `App`, in case you can't get the `HTMLElemen
 **Signature**
 
 ```ts
-export declare const runWithRoot: (app: App, root: HTMLElement) => boolean
+export declare const runWithRoot: (app: App, root: HTMLElement) => boolean;
 ```
 
 Added in v1.0.0
@@ -167,130 +177,130 @@ Added in v1.0.0
 ```ts
 export declare const element: (
   tagName:
-    | 'object'
-    | 'fragment'
-    | 'a'
-    | 'abbr'
-    | 'address'
-    | 'applet'
-    | 'area'
-    | 'article'
-    | 'aside'
-    | 'audio'
-    | 'b'
-    | 'base'
-    | 'basefont'
-    | 'bdi'
-    | 'bdo'
-    | 'blockquote'
-    | 'body'
-    | 'br'
-    | 'button'
-    | 'canvas'
-    | 'caption'
-    | 'cite'
-    | 'code'
-    | 'col'
-    | 'colgroup'
-    | 'data'
-    | 'datalist'
-    | 'dd'
-    | 'del'
-    | 'details'
-    | 'dfn'
-    | 'dialog'
-    | 'dir'
-    | 'div'
-    | 'dl'
-    | 'dt'
-    | 'em'
-    | 'embed'
-    | 'fieldset'
-    | 'figcaption'
-    | 'figure'
-    | 'font'
-    | 'footer'
-    | 'form'
-    | 'frame'
-    | 'frameset'
-    | 'h1'
-    | 'h2'
-    | 'h3'
-    | 'h4'
-    | 'h5'
-    | 'h6'
-    | 'head'
-    | 'header'
-    | 'hgroup'
-    | 'hr'
-    | 'html'
-    | 'i'
-    | 'iframe'
-    | 'img'
-    | 'input'
-    | 'ins'
-    | 'kbd'
-    | 'label'
-    | 'legend'
-    | 'li'
-    | 'link'
-    | 'main'
-    | 'map'
-    | 'mark'
-    | 'marquee'
-    | 'menu'
-    | 'meta'
-    | 'meter'
-    | 'nav'
-    | 'noscript'
-    | 'ol'
-    | 'optgroup'
-    | 'option'
-    | 'output'
-    | 'p'
-    | 'param'
-    | 'picture'
-    | 'pre'
-    | 'progress'
-    | 'q'
-    | 'rp'
-    | 'rt'
-    | 'ruby'
-    | 's'
-    | 'samp'
-    | 'script'
-    | 'section'
-    | 'select'
-    | 'slot'
-    | 'small'
-    | 'source'
-    | 'span'
-    | 'strong'
-    | 'style'
-    | 'sub'
-    | 'summary'
-    | 'sup'
-    | 'table'
-    | 'tbody'
-    | 'td'
-    | 'template'
-    | 'textarea'
-    | 'tfoot'
-    | 'th'
-    | 'thead'
-    | 'time'
-    | 'title'
-    | 'tr'
-    | 'track'
-    | 'u'
-    | 'ul'
-    | 'var'
-    | 'video'
-    | 'wbr'
+    | "object"
+    | "fragment"
+    | "a"
+    | "abbr"
+    | "address"
+    | "applet"
+    | "area"
+    | "article"
+    | "aside"
+    | "audio"
+    | "b"
+    | "base"
+    | "basefont"
+    | "bdi"
+    | "bdo"
+    | "blockquote"
+    | "body"
+    | "br"
+    | "button"
+    | "canvas"
+    | "caption"
+    | "cite"
+    | "code"
+    | "col"
+    | "colgroup"
+    | "data"
+    | "datalist"
+    | "dd"
+    | "del"
+    | "details"
+    | "dfn"
+    | "dialog"
+    | "dir"
+    | "div"
+    | "dl"
+    | "dt"
+    | "em"
+    | "embed"
+    | "fieldset"
+    | "figcaption"
+    | "figure"
+    | "font"
+    | "footer"
+    | "form"
+    | "frame"
+    | "frameset"
+    | "h1"
+    | "h2"
+    | "h3"
+    | "h4"
+    | "h5"
+    | "h6"
+    | "head"
+    | "header"
+    | "hgroup"
+    | "hr"
+    | "html"
+    | "i"
+    | "iframe"
+    | "img"
+    | "input"
+    | "ins"
+    | "kbd"
+    | "label"
+    | "legend"
+    | "li"
+    | "link"
+    | "main"
+    | "map"
+    | "mark"
+    | "marquee"
+    | "menu"
+    | "meta"
+    | "meter"
+    | "nav"
+    | "noscript"
+    | "ol"
+    | "optgroup"
+    | "option"
+    | "output"
+    | "p"
+    | "param"
+    | "picture"
+    | "pre"
+    | "progress"
+    | "q"
+    | "rp"
+    | "rt"
+    | "ruby"
+    | "s"
+    | "samp"
+    | "script"
+    | "section"
+    | "select"
+    | "slot"
+    | "small"
+    | "source"
+    | "span"
+    | "strong"
+    | "style"
+    | "sub"
+    | "summary"
+    | "sup"
+    | "table"
+    | "tbody"
+    | "td"
+    | "template"
+    | "textarea"
+    | "tfoot"
+    | "th"
+    | "thead"
+    | "time"
+    | "title"
+    | "tr"
+    | "track"
+    | "u"
+    | "ul"
+    | "var"
+    | "video"
+    | "wbr"
     | ((props: Record<string, unknown>) => Element),
   props: Record<string, unknown> | null,
   ...children: (string | number | Element)[]
-) => Element
+) => Element;
 ```
 
 Added in v1.0.0
@@ -300,7 +310,7 @@ Added in v1.0.0
 **Signature**
 
 ```ts
-export declare const fragment: 'fragment'
+export declare const fragment: "fragment";
 ```
 
 Added in v1.0.0
@@ -314,17 +324,17 @@ Added in v1.0.0
 ```ts
 export type Element = ADT<{
   Root: {
-    tagName: TagName
-    props: Record<string, unknown> | null
-    children: Element[]
-  }
+    tagName: TagName;
+    props: Record<string, unknown> | null;
+    children: Element[];
+  };
   Text: {
-    value: string
-  }
+    value: string;
+  };
   Fragment: {
-    children: Element[]
-  }
-}>
+    children: Element[];
+  };
+}>;
 ```
 
 Added in v1.0.0
@@ -334,7 +344,7 @@ Added in v1.0.0
 **Signature**
 
 ```ts
-export declare const Node: UINode
+export declare const Node: UINode;
 ```
 
 Added in v1.0.0
@@ -344,7 +354,7 @@ Added in v1.0.0
 **Signature**
 
 ```ts
-export type TagName = keyof HTMLElementTagNameMap
+export type TagName = keyof HTMLElementTagNameMap;
 ```
 
 Added in v1.0.0
@@ -354,7 +364,7 @@ Added in v1.0.0
 **Signature**
 
 ```ts
-type UINode = string | number | boolean | Element | UINode[]
+type UINode = string | number | boolean | Element | UINode[];
 ```
 
 Added in v1.0.0
@@ -367,8 +377,11 @@ Added in v1.0.0
 
 ```ts
 export type Produce = <TState>(
-  recipe: (state: Draft<TState>, initialState: TState) => TState | void | undefined
-) => (state?: TState) => TState
+  recipe: (
+    state: Draft<TState>,
+    initialState: TState,
+  ) => TState | void | undefined,
+) => (state?: TState) => TState;
 ```
 
 Added in v1.0.0
@@ -380,7 +393,7 @@ A thin wrapper around `immer`'s `produce` that's easier to type within an `Updat
 **Signature**
 
 ```ts
-export declare const produce: Produce
+export declare const produce: Produce;
 ```
 
 Added in v1.0.0
