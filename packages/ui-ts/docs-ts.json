@@ -1,0 +1,10 @@
+{
+  "parseCompilerOptions": {
+    "extends": "./tsconfig.json"
+  },
+  "examplesCompilerOptions": {
+    "target": "es2016",
+    "strict": true,
+    "skipLibCheck": true
+  }
+}

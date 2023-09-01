@@ -2,35 +2,9 @@
   "name": "ui-ts",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/lib/index.js",
-  "module": "dist/es6/index.js",
-  "typings": "dist/lib/index.d.ts",
-  "files": ["dist"],
-  "scripts": {
-    "prepack": "npm run build",
-    "clean": "rimraf ./dist",
-    "prebuild": "npm run clean",
-    "build": "tsc -p ./tsconfig.build.json && tsc -p ./tsconfig.build-es6.json",
-    "test": "jest"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ej-shafran/ui-ts.git"
-  },
-  "keywords": [
-    "fp-ts"
-  ],
-  "author": "ej-shafran",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/ej-shafran/ui-ts/issues"
-  },
-  "homepage": "https://github.com/ej-shafran/ui-ts#readme",
-  "dependencies": {
-    "fp-ts": "^2.16.1",
-    "ts-adt": "^2.1.2"
-  },
-  "devDependencies": {
-    "rimraf": "^5.0.1"
-  }
+  "main": "index.js",
+  "scripts": { },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }
