@@ -1,8 +1,9 @@
-import { Left, Right, isLeft, isRight } from "fp-ts/lib/Either";
-import { parseArgs } from "../src/args";
+import "./matchers";
 import { describe, it, expect } from "vitest";
+
+import { Left } from "fp-ts/lib/Either";
+import { parseArgs } from "../src/args";
 import {
-  CLIError,
   UnrecognizedFlag,
   UnrecognizedTemplate,
   UserInitiated,
@@ -16,10 +17,7 @@ describe("positional parameter", () => {
   it("should set the `directory` option relative to the CWD", () => {
     const result = parseArgs(["../some/dir"], "cwd");
 
-    expect(isRight(result)).toBe(true);
-    expect((result as Right<{ directory: string }>).right.directory).toBe(
-      "some/dir",
-    );
+    expect(result).toBeRightMatching({ directory: "some/dir" });
   });
 });
 
@@ -27,10 +25,9 @@ describe("--help, -h", () => {
   it("should print out a `help` message", () => {
     const result = parseArgs(["--help"], "");
 
-    expect(isLeft(result)).toBe(true);
-    expect((result as Left<CLIError>).left._type).toBe<CLIError["_type"]>(
-      "UserInitiated",
-    );
+    expect(result).toBeLeftMatching<Pick<UserInitiated, "_type">>({
+      _type: "UserInitiated",
+    });
     expect((result as Left<UserInitiated>).left.log).toMatchSnapshot();
   });
 });
@@ -39,10 +36,9 @@ describe("--template, -t", () => {
   it(`should default to "${DEFAULT_TEMPLATE}"`, () => {
     const result = parseArgs([], "");
 
-    expect(isRight(result)).toBe(true);
-    expect((result as Right<{ template: string }>).right.template).toBe(
-      DEFAULT_TEMPLATE,
-    );
+    expect(result).toBeRightMatching({
+      template: DEFAULT_TEMPLATE,
+    });
   });
 
   it("should change the used template", () => {
@@ -50,33 +46,27 @@ describe("--template, -t", () => {
 
     const result = parseArgs(["--template", template], "");
 
-    expect(isRight(result)).toBe(true);
-    expect((result as Right<{ template: string }>).right.template).toBe(
+    expect(result).toBeRightMatching({
       template,
-    );
+    });
   });
 
   it("should fail for a nonexistent template", () => {
     const result = parseArgs(["--template", NONEXISTENT_TEMPLATE], "");
 
-    expect(isLeft(result)).toBe(true);
-    expect((result as Left<CLIError>).left._type).toBe<CLIError["_type"]>(
-      "UnrecognizedTemplate",
-    );
-    expect((result as Left<UnrecognizedTemplate>).left.template).toBe(
-      NONEXISTENT_TEMPLATE,
-    );
+    expect(result).toBeLeftMatching<UnrecognizedTemplate>({
+      _type: "UnrecognizedTemplate",
+      template: NONEXISTENT_TEMPLATE,
+    });
   });
 });
 
 describe("unrecognized flag", () => {
   it("should fail", () => {
     const result = parseArgs([NONEXISTENT_FLAG], "");
-
-    expect(isLeft(result)).toBe(true);
-    expect((result as Left<CLIError>).left._type).toBe<CLIError["_type"]>(
-      "UnrecognizedFlag",
-    );
-    expect((result as Left<UnrecognizedFlag>).left.flag).toBe(NONEXISTENT_FLAG);
+    expect(result).toBeLeftMatching<UnrecognizedFlag>({
+      _type: "UnrecognizedFlag",
+      flag: NONEXISTENT_FLAG,
+    });
   });
 });
