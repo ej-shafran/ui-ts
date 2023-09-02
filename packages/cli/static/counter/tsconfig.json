@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "es2016",
     "jsx": "react",
-    "jsxFactory": "UI.elem",
+    "jsxFactory": "UI.element",
     "jsxFragmentFactory": "UI.fragment",
     "module": "commonjs",
     "noEmit": true,
