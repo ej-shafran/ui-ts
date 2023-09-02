@@ -13,3 +13,5 @@ Added in v1.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 ---
+
+Re-exports everything from [[`UI`|UI-ts.md]]

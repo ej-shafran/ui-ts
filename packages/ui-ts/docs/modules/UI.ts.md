@@ -146,7 +146,7 @@ Added in v1.0.0
 
 ## runApp
 
-Run an `App` with a certain HTML elemtn, given that element's ID.
+Run an `App` with a certain HTML element, given that element's ID.
 
 **Signature**
 

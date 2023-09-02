@@ -1,10 +1,3 @@
----
-title: Modules
-has_children: true
-permalink: /docs/modules
-nav_order: 2
----
-
 # ui-ts
 
 A tiny-tiny UI library that uses JSX and `fp-ts` to make for easy small UIs.
@@ -46,3 +39,7 @@ Setup a TSConfig like the following:
 ```
 
 And setup some sort of build process.
+
+## Documentation
+
+See [docs](https://ej-shafran.github.io/ui-ts).
