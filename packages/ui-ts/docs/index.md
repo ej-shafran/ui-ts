@@ -3,43 +3,22 @@ title: Introduction
 nav_order: 1
 ---
 
-# ui-ts
+# UI With `fp-ts`
 
-A tiny-tiny UI library that uses JSX and `fp-ts` to make for easy small UIs.
+A tiny-tiny UI library that uses JSX and [`fp-ts`](https://gcanti.github.io/fp-ts/) to make for easy, small UIs.
 
-## Installation
+## Elm-like Style
 
-### Using the CLI
+Every `ui-ts` application is built with the following building blocks:
 
-See [CLI](https://www.npmjs.com/package/ui-ts-cli).
+- A `State` type, which holds the global state of the application
+- An `Event` type, which represents the different possible events that may occur (usually with [`ts-adt`](https://github.com/pfgray/ts-adt))
+- An `initial` variable, which is the initial `State` of the application
+- A `render` function, which takes the current state and a `trigger` callback, and returns the HTML to render to the screen (using JSX)
+- An `update` function, which returns a new state based on the previous state and an event
 
-### Manual installation
+Calling `UI.createApp` with all of these returns an `App`, which can then be run with `UI.runApp` or `UI.runWithRoot`.
 
-Install, alongside `fp-ts`, `ts-adt`, and `immer`:
+## Get Started
 
-```
-> pnpm install ui-ts fp-ts ts-adt immer
-```
-
-Setup a TSConfig like the following:
-
-```json
-{
-  "compilerOptions": {
-    "module": "commonjs",
-    "target": "es2016",
-
-    "jsx": "react",
-    "jsxFactory": "UI.element",
-    "jsxFragmentFactory": "UI.fragment",
-
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "strict": true,
-    "skipLibCheck": true,
-    "strictBindCallApply": true
-  }
-}
-```
-
-And setup some sort of build process.
+You can use [the CLI](https://npmjs.com/package/ui-ts-cli) to initialize a new `ui-ts` project, using `npx ui-ts`.
