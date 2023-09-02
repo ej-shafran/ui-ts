@@ -1,6 +1,5 @@
 import { ADT, match } from "ts-adt";
 import * as UI from "ui-ts";
-import { produce } from "immer";
 
 type State = {
   // your application state goes here
@@ -32,8 +31,8 @@ const render: UI.Render<State, Event> = (trigger, state) => (
 // it's built to be easy-to-use with `immer`'s curried `produce` syntax
 const update: UI.Update<State, Event> = match({
   Click: () =>
-    produce((state: State) => {
-      state.count++;
+    UI.produce<State>((draft) => {
+      draft.count++;
     }),
 });
 
