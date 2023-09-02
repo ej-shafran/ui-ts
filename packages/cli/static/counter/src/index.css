@@ -1,0 +1,55 @@
+/* you can style your application here! */
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+#root,
+body,
+html {
+  width: 100%;
+  height: 100%;
+}
+
+#root {
+  display: grid;
+  place-items: center;
+}
+
+button {
+  --bg: #2ea44f;
+  --bg-dark: #1d933e;
+  --border: rgba(27, 31, 35, 0.15);
+  --shadow: rgba(27, 31, 35, 0.1);
+  --text: white;
+  --focus: rgba(46, 164, 79, 0.4);
+
+  background-color: var(--bg);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow) 0 1px 0;
+  color: var(--text);
+  border-radius: 6px;
+
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.2rem;
+  padding: 0.75rem 1.5rem;
+  text-align: center;
+}
+
+button:focus:not(:focus-visible):not(.focus-visible) {
+  box-shadow: none;
+  outline: none;
+}
+
+button:hover {
+  background-color: var(--bg-dark);
+}
+
+button:focus {
+  box-shadow: var(--focus) 0 0 0 3px;
+  outline: none;
+}
