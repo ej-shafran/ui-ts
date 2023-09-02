@@ -8,14 +8,20 @@
   },
   "scripts": {
     "test": "vitest",
-    "build": "node ./build.mjs"
+    "build": "node ./build.mjs",
+    "lint": "eslint ./src --ext .js,.jsx,.ts,.tsx --max-warnings 0",
+    "spell": "cspell 'src/*.*' 'docs/*.md'"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^20.5.8",
+    "@typescript-eslint/eslint-plugin": "^6.5.0",
+    "@typescript-eslint/parser": "^6.5.0",
+    "cspell": "^7.3.2",
     "esbuild": "^0.19.2",
+    "eslint": "^8.48.0",
     "vitest": "^0.34.3"
   },
   "dependencies": {

@@ -85,7 +85,7 @@ export const handleErrors: (error: CLIError) => IO.IO<number> = (error) =>
           : O.none,
       UnknownError: ({ original }) =>
         O.some(
-          `Unknown error occured. The original error was:\n${inspect(
+          `Unknown error occurred. The original error was:\n${inspect(
             original,
           )}`,
         ),

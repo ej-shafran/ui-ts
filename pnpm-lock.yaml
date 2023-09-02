@@ -23,9 +23,21 @@ importers:
       '@types/node':
         specifier: ^20.5.8
         version: 20.5.8
+      '@typescript-eslint/eslint-plugin':
+        specifier: ^6.5.0
+        version: 6.5.0(@typescript-eslint/parser@6.5.0)(eslint@8.48.0)(typescript@5.2.2)
+      '@typescript-eslint/parser':
+        specifier: ^6.5.0
+        version: 6.5.0(eslint@8.48.0)(typescript@5.2.2)
+      cspell:
+        specifier: ^7.3.2
+        version: 7.3.2
       esbuild:
         specifier: ^0.19.2
         version: 0.19.2
+      eslint:
+        specifier: ^8.48.0
+        version: 8.48.0
       vitest:
         specifier: ^0.34.3
         version: 0.34.3
