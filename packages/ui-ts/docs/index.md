@@ -29,7 +29,6 @@ Setup a TSConfig like the following:
     "module": "commonjs",
     "target": "es2016",
 
-    // JSX
     "jsx": "react",
     "jsxFactory": "UI.element",
     "jsxFragmentFactory": "UI.fragment",
