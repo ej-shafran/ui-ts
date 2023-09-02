@@ -1,0 +1,21 @@
+{
+  "name": "",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "dev": "esbuild ./src/index.tsx --outdir=./build --servedir=./ --watch --bundle",
+    "build": "esbuild ./src/index.tsx --outdir=./build" 
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "esbuild": "^0.18.20",
+    "typescript": "^5.1.6"
+  },
+  "dependencies": {
+    "fp-ts": "^2.16.1",
+    "immer": "^10.0.2",
+    "ts-adt": "^2.1.2",
+    "ui-ts": "^1.0.0"
+  }
+}

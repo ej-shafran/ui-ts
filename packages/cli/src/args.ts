@@ -8,7 +8,7 @@ export type ArgsError = ADT<{
 }>;
 
 export type Flags = {
-  template: string | undefined;
+  template: string;
   help: boolean | undefined;
 };
 
