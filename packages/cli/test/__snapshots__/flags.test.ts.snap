@@ -9,7 +9,7 @@ If PATH is not provided, the CWD is used.
 
 Options:
   --help, -h      Print this help and exit
-  --template, -t  The template to use. Available templates are \\"basic\\", \\"counter\\" or \\"vite\\".
+  --template, -t  The template to use. Available templates are \\"basic\\", \\"counter\\", \\"vite\\" or \\"vite-basic\\".
                   Default: \\"counter\\".
   --force, -f     Initialize project even if PATH is not empty, without prompting."
 `;
