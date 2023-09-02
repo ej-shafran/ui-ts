@@ -17,4 +17,5 @@ If PATH is not provided, the CWD is used.
 Options:
   --help, -h      Print this help and exit
   --template, -t  The template to use. Available templates are ${TEMPLATES_STRING}.
-                  Default: "${DEFAULT_TEMPLATE}".`;
+                  Default: "${DEFAULT_TEMPLATE}".
+  --force, -f     Initialize project even if PATH is not empty, without prompting.`;
