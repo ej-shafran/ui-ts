@@ -1,0 +1,22 @@
+name: Format
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs: 
+  format:
+      runs-on: ubuntu-latest
+    
+      steps: 
+        - name: Checkout
+          uses: actions/checkout@v3
+          with:
+            # Make sure the actual branch is checked out when running on pull requests
+            ref: ${{ github.head_ref }}
+  
+        - name: Formatting
+          uses: creyD/prettier_action@v4.3
+          with:
+            prettier_options: --write **/*.{ts,mjs,js,json,md}
+            commit_message: 'chore: format code'
