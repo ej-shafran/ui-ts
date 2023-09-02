@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "dev": "esbuild ./src/index.tsx --outdir=./build --servedir=./ --watch --bundle",
-    "build": "esbuild ./src/index.tsx --outdir=./build" 
+    "build": "esbuild ./src/index.tsx --outdir=./build"
   },
   "author": "",
   "license": "ISC",

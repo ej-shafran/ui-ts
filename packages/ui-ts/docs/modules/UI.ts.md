@@ -176,10 +176,7 @@ Added in v1.0.0
 
 ```ts
 export declare const element: (
-  tagName:
-    | "fragment"
-    | TagName
-    | ((props: Record<string, unknown>) => Element),
+  tagName: "fragment" | TagName | ((props: Record<string, unknown>) => Element),
   props: Record<string, unknown> | null,
   ...children: (string | number | Element)[]
 ) => Element;
