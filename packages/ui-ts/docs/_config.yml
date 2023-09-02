@@ -5,9 +5,9 @@ search_enabled: true
 
 # Aux links for the upper right navigation
 aux_links:
-  "GitHub":
-    - "https://github.com/ej-shafran/ui-ts/tree/main/packages/ui-ts"
-  "API Reference":
-    - "https://ej-shafran.github.io/ui-ts/docs/modules"
   "Docs":
     - "https://ej-shafran.github.io/ui-ts/"
+  "API Reference":
+    - "https://ej-shafran.github.io/ui-ts/docs/modules"
+  "GitHub":
+    - "https://github.com/ej-shafran/ui-ts/blob/main/packages/ui-ts/README.md"
