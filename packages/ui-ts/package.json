@@ -10,7 +10,7 @@
     "prepublish": "npm run build",
     "pretty": "prettier . -w",
     "lint": "eslint ./src --ext .js,.jsx,.ts,.tsx --max-warnings 0",
-    "types": "npx @arethetypeswrong/cli --pack",
+    "types": "npx @arethetypeswrong/cli --pack --entrypoints . ./lib/UI ./lib/DOM",
     "test": "vitest",
     "spell": "cspell 'src/*.*' 'docs/*.md'"
   },
