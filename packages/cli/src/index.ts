@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 import * as TE from "fp-ts/TaskEither";
+import * as T from "fp-ts/Task";
 import { log } from "fp-ts/Console";
 import { pipe } from "fp-ts/function";
 
@@ -42,10 +43,12 @@ export const program = (argv: string[], cwd: string, isInteractive: boolean) =>
     }),
     TE.let("dirName", ({ args }) => basename(args.directory)),
     TE.tapIO(({ dirName }) => log(`Initializing a project in "${dirName}"...`)),
-    TE.tap(({ args }) => copyTemplate(args.template, args.directory)),
+    TE.tap(({ args }) =>
+      copyTemplate(args.template, args.directory, args.force),
+    ),
     TE.tap(({ args, dirName }) => replaceProjectName(args.directory, dirName)),
     TE.tapIO(({ args }) => logDone(args.directory, cwd)),
-    TE.match(handleErrors, () => 0),
+    TE.matchE(T.fromIOK(handleErrors), () => T.of(0)),
   );
 
 if (require.main === module) {

@@ -28,7 +28,7 @@ describe("--help, -h", () => {
     expect(result).toBeLeftMatching<Pick<UserInitiated, "_type">>({
       _type: "UserInitiated",
     });
-    expect((result as Left<UserInitiated>).left.log).toMatchSnapshot();
+    expect((result as Left<UserInitiated>).left.message).toMatchSnapshot();
   });
 });
 

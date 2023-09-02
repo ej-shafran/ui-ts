@@ -1,26 +1,34 @@
+import * as IO from "fp-ts/IO";
+import * as O from "fp-ts/Option";
+import { pipe } from "fp-ts/function";
+import { log } from "fp-ts/Console";
+
 import { ADT, match } from "ts-adt";
+import { inspect } from "util";
 
 import { TEMPLATES_STRING, USAGE } from "./constants";
 
 export type CLIError = ADT<{
-  UserInitiated: { log: string };
+  UserInitiated: { message: string };
   UnrecognizedFlag: { flag: unknown };
   UnrecognizedTemplate: { template: string };
   FileExists: { path: string };
   TargetNotEmpty: { target: string; isInteractive: boolean };
   UnknownError: { original: unknown };
-}>;
+}> & { exitCode: number };
 
 export type UserInitiated = CLIError & { _type: "UserInitiated" };
-export const UserInitiated = (log: string): UserInitiated => ({
+export const UserInitiated = (message: string): UserInitiated => ({
   _type: "UserInitiated",
-  log,
+  message,
+  exitCode: 0,
 });
 
 export type UnrecognizedFlag = CLIError & { _type: "UnrecognizedFlag" };
 export const UnrecognizedFlag = (flag: unknown): UnrecognizedFlag => ({
   _type: "UnrecognizedFlag",
   flag: String(flag),
+  exitCode: 1,
 });
 
 export type UnrecognizedTemplate = CLIError & { _type: "UnrecognizedTemplate" };
@@ -29,12 +37,14 @@ export const UnrecognizedTemplate = (
 ): UnrecognizedTemplate => ({
   _type: "UnrecognizedTemplate",
   template,
+  exitCode: 1,
 });
 
 export type FileExists = CLIError & { _type: "FileExists" };
 export const FileExists = (path: string): FileExists => ({
   _type: "FileExists",
   path,
+  exitCode: 1,
 });
 
 export type TargetNotEmpty = CLIError & { _type: "TargetNotEmpty" };
@@ -45,43 +55,41 @@ export const TargetNotEmpty = (
   _type: "TargetNotEmpty",
   target,
   isInteractive,
+  exitCode: 1,
 });
 
 export type UnknownError = CLIError & { _type: "UnknownError" };
 export const UnknownError = (original: unknown): UnknownError => ({
   _type: "UnknownError",
   original,
+  exitCode: 1,
 });
 
-export const handleErrors: (error: CLIError) => number = match({
-  UserInitiated: ({ log }) => {
-    console.log(log);
-    return 0;
-  },
-  TargetNotEmpty: ({ target, isInteractive }) => {
-    if (isInteractive)
-      console.log(
-        `"${target}" is not empty. Use "--force" to initialize anyways.`,
-      );
-    return 1;
-  },
-  FileExists: ({ path }) => {
-    console.log(`File already exists: "${path}"`);
-    return 1;
-  },
-  UnrecognizedFlag: ({ flag }) => {
-    console.log(USAGE);
-    console.log(`\nUnrecognized flag: ${flag}`);
-    return 1;
-  },
-  UnknownError: ({ original }) => {
-    console.log("Unknown error occured. The original error was:\n", original);
-    return 1;
-  },
-  UnrecognizedTemplate: ({ template }) => {
-    console.log(
-      `Unrecognized template "${template}". Available templates are ${TEMPLATES_STRING}.`,
-    );
-    return 1;
-  },
-});
+export const handleErrors: (error: CLIError) => IO.IO<number> = (error) =>
+  pipe(
+    error,
+    match({
+      UserInitiated: ({ message }) => O.some(message),
+      FileExists: ({ path }) => O.some(`File already exists: "${path}"`),
+      UnrecognizedFlag: ({ flag }) =>
+        O.some(USAGE + `\n\nUnrecognized flag: ${flag}`),
+      UnrecognizedTemplate: ({ template }) =>
+        O.some(
+          `Unrecognized template "${template}". Available templates are ${TEMPLATES_STRING}.`,
+        ),
+      TargetNotEmpty: ({ target, isInteractive }) =>
+        !isInteractive
+          ? O.some(
+              `"${target}" is not empty. Use "--force" to initialize anyways.`,
+            )
+          : O.none,
+      UnknownError: ({ original }) =>
+        O.some(
+          `Unknown error occured. The original error was:\n${inspect(
+            original,
+          )}`,
+        ),
+    }),
+    O.traverse(IO.Applicative)(log),
+    IO.map(() => error.exitCode),
+  );
