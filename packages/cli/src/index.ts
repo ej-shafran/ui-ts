@@ -9,7 +9,7 @@ import { basename, relative } from "path";
 import { parseArgs } from "./args";
 import { copyTemplate, isDirectoryEmpty, replaceProjectName } from "./fs";
 import { promptToOverride } from "./prompt";
-import { handleErrors } from "./errors";
+import { TargetNotEmpty, handleErrors } from "./errors";
 
 const logDone = (directory: string, cwd: string) => {
   const cdCommand =
@@ -24,16 +24,22 @@ To get started!
 `);
 };
 
-export const program = (argv: string[], cwd: string) =>
+export const program = (argv: string[], cwd: string, isInteractive: boolean) =>
   pipe(
     TE.Do,
     TE.bind("args", () => TE.fromEither(parseArgs(argv, cwd))),
-    TE.bindW("isEmpty", ({ args }) => isDirectoryEmpty(args.directory)),
-    TE.tap(({ isEmpty, args }) =>
-      !isEmpty && process.stdin.isTTY
-        ? promptToOverride(args.directory)
-        : TE.right(undefined as void),
+    TE.bindW("isEmpty", ({ args }) =>
+      args.force ? TE.of(true) : isDirectoryEmpty(args.directory),
     ),
+    TE.tap(({ isEmpty, args }) => {
+      if (isEmpty) {
+        return TE.right(undefined);
+      } else if (isInteractive) {
+        return promptToOverride(args.directory);
+      } else {
+        return TE.left(TargetNotEmpty(args.directory, false));
+      }
+    }),
     TE.let("dirName", ({ args }) => basename(args.directory)),
     TE.tapIO(({ dirName }) => log(`Initializing a project in "${dirName}"...`)),
     TE.tap(({ args }) => copyTemplate(args.template, args.directory)),
@@ -43,6 +49,10 @@ export const program = (argv: string[], cwd: string) =>
   );
 
 if (require.main === module) {
-  const main = program(process.argv.slice(2), process.cwd());
+  const main = program(
+    process.argv.slice(2),
+    process.cwd(),
+    process.stdin.isTTY,
+  );
   main().then(process.exit);
 }

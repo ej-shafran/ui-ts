@@ -3,15 +3,16 @@ import { ADT, match } from "ts-adt";
 import { TEMPLATES_STRING, USAGE } from "./constants";
 
 export type CLIError = ADT<{
-  UserInitiated: { log?: string };
+  UserInitiated: { log: string };
   UnrecognizedFlag: { flag: unknown };
   UnrecognizedTemplate: { template: string };
   FileExists: { path: string };
+  TargetNotEmpty: { target: string; isInteractive: boolean };
   UnknownError: { original: unknown };
 }>;
 
 export type UserInitiated = CLIError & { _type: "UserInitiated" };
-export const UserInitiated = (log?: string): UserInitiated => ({
+export const UserInitiated = (log: string): UserInitiated => ({
   _type: "UserInitiated",
   log,
 });
@@ -36,6 +37,16 @@ export const FileExists = (path: string): FileExists => ({
   path,
 });
 
+export type TargetNotEmpty = CLIError & { _type: "TargetNotEmpty" };
+export const TargetNotEmpty = (
+  target: string,
+  isInteractive: boolean,
+): TargetNotEmpty => ({
+  _type: "TargetNotEmpty",
+  target,
+  isInteractive,
+});
+
 export type UnknownError = CLIError & { _type: "UnknownError" };
 export const UnknownError = (original: unknown): UnknownError => ({
   _type: "UnknownError",
@@ -44,8 +55,15 @@ export const UnknownError = (original: unknown): UnknownError => ({
 
 export const handleErrors: (error: CLIError) => number = match({
   UserInitiated: ({ log }) => {
-    if (log) console.log(log);
+    console.log(log);
     return 0;
+  },
+  TargetNotEmpty: ({ target, isInteractive }) => {
+    if (isInteractive)
+      console.log(
+        `"${target}" is not empty. Use "--force" to initialize anyways.`,
+      );
+    return 1;
   },
   FileExists: ({ path }) => {
     console.log(`File already exists: "${path}"`);

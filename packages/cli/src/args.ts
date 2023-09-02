@@ -14,6 +14,7 @@ import { join } from "path";
 export type Flags = {
   template: string;
   help: boolean | undefined;
+  force: boolean | undefined;
 };
 
 const unsafeArgs = (argv: string[]) =>
@@ -22,10 +23,11 @@ const unsafeArgs = (argv: string[]) =>
       template: DEFAULT_TEMPLATE,
     },
     string: ["template"],
-    boolean: ["help"],
+    boolean: ["help", "force"],
     alias: {
       t: "template",
       h: "help",
+      f: "force",
     },
     unknown(flag) {
       throw flag;
@@ -44,6 +46,7 @@ export const parseArgs = (argv: string[], cwd: string) =>
       (args) => UnrecognizedTemplate(args.template),
     ),
     E.map((args) => ({
+      force: !!args.force,
       template: args.template,
       directory: join(cwd, args._[0] ?? ""),
     })),
