@@ -3,7 +3,7 @@ title: Introduction
 nav_order: 1
 ---
 
-<img src="ui-ts-logo.png" alt="UI-TS Logo"/>
+<img src="ui-ts-logo.png" alt="UI-TS Logo" style="display: block; width: 200px; margin-bottom: 2em;"/>
 
 # UI With `fp-ts`
 
