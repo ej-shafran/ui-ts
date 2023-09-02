@@ -490,7 +490,7 @@ export const runWithRoot: (app: App, root: HTMLElement) => boolean = (
 };
 
 /**
- * Run an `App` with a certain HTML elemtn, given that element's ID.
+ * Run an `App` with a certain HTML element, given that element's ID.
  *
  * @param app The `App` to run
  * @param rootId The ID of the element to append the resulting HTML to. Default: `"root"`.
