@@ -1,4 +1,4 @@
-export const TEMPLATES = ["basic", "counter", "vite"];
+export const TEMPLATES = ["basic", "counter", "vite", "vite-basic"];
 export const DEFAULT_TEMPLATE = TEMPLATES[1];
 
 const QUOTED_TEMPLATES = TEMPLATES.map((template) => `"${template}"`);

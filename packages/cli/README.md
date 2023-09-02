@@ -58,6 +58,7 @@ You can use the `--templates` flag (or `-t`) to set the template of the project.
 - [Basic](#basic)
 - [Vite](#vite)
 - [Counter](#counter)
+- [Vite Basic](#vite-basic)
 
 ### Basic
 
@@ -66,6 +67,10 @@ Barebones - no styling, no comments, nothing in your way. You're on your own!
 ## Vite
 
 Using Vite. Very similar to Vite's basic project templates (the ones created with `npm create vite`).
+
+## Vite Basic
+
+Uses Vite, but with no preset, similar to [Basic](#basic).
 
 ## Counter
 
