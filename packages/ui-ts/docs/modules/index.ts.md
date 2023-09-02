@@ -14,4 +14,4 @@ Added in v1.0.0
 
 ---
 
-Re-exports everything from [[`UI`|UI-ts.md]]
+Re-exports everything from `UI`.
