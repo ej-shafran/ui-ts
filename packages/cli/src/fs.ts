@@ -15,11 +15,15 @@ export const isDirectoryEmpty = (dirPath: string) =>
     TE.map(A.isEmpty),
   );
 
-export const copyTemplate = (template: string, target: string) =>
+export const copyTemplate = (
+  template: string,
+  target: string,
+  force: boolean,
+) =>
   TE.tryCatch(
     () =>
       cp(join(__dirname, "..", "static", template), target, {
-        force: false,
+        force,
         errorOnExist: true,
         recursive: true,
       }),
