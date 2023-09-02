@@ -3,6 +3,8 @@ title: Introduction
 nav_order: 1
 ---
 
+<img src="ui-ts-logo.png" alt="UI-TS Logo"/>
+
 # UI With `fp-ts`
 
 A tiny-tiny UI library that uses JSX and [`fp-ts`](https://gcanti.github.io/fp-ts/) to make for easy, small UIs.
