@@ -3,7 +3,7 @@ import { ADT, match } from "ts-adt";
 import { TEMPLATES_STRING, USAGE } from "./constants";
 
 export type CLIError = ADT<{
-  UserInitiated: {};
+  UserInitiated: { log?: string };
   UnrecognizedFlag: { flag: unknown };
   UnrecognizedTemplate: { template: string };
   FileExists: { path: string };
@@ -11,9 +11,10 @@ export type CLIError = ADT<{
 }>;
 
 export type UserInitiated = CLIError & { _type: "UserInitiated" };
-export const UserInitiated: UserInitiated = {
+export const UserInitiated = (log?: string): UserInitiated => ({
   _type: "UserInitiated",
-};
+  log,
+});
 
 export type UnrecognizedFlag = CLIError & { _type: "UnrecognizedFlag" };
 export const UnrecognizedFlag = (flag: unknown): UnrecognizedFlag => ({
@@ -42,7 +43,10 @@ export const UnknownError = (original: unknown): UnknownError => ({
 });
 
 export const handleErrors: (error: CLIError) => number = match({
-  UserInitiated: () => 0,
+  UserInitiated: ({ log }) => {
+    if (log) console.log(log);
+    return 0;
+  },
   FileExists: ({ path }) => {
     console.log(`File already exists: "${path}"`);
     return 1;
