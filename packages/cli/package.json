@@ -7,6 +7,7 @@
     "ui-ts": "./bin/index.js"
   },
   "scripts": {
+    "test": "vitest",
     "build": "node ./build.mjs"
   },
   "keywords": [],
@@ -14,7 +15,8 @@
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^20.5.8",
-    "esbuild": "^0.19.2"
+    "esbuild": "^0.19.2",
+    "vitest": "^0.34.3"
   },
   "dependencies": {
     "fp-ts": "^2.16.1",
