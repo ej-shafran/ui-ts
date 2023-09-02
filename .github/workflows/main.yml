@@ -60,5 +60,5 @@ jobs:
       - name: Formatting
         uses: creyD/prettier_action@v4.3
         with:
-          prettier_options: --write **/*.*
+          prettier_options: --write **/*.{ts,mjs,js,json,md}
           commit_message: 'chore: prettify code'
