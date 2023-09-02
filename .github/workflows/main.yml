@@ -43,19 +43,19 @@ jobs:
         run: pnpm install
 
       - name: Build
-        run: pnpm build --if-present -r
+        run: pnpm --if-present -r build
 
       - name: Tests
-        run: pnpm test --if-present -r
+        run: pnpm --if-present -r test
 
       - name: Linting
-        run: pnpm lint --if present -r
+        run: pnpm  --if present -r run lint
 
       - name: Check TypeScript (Using `AreTheTypesWrong`)
-        run: pnpm types --if-present -r
+        run: pnpm --if-present -r types
 
       - name: Check Spelling
-        run: pnpm spell --if-present -r
+        run: pnpm --if-present -r spell
 
       - name: Formatting
         uses: creyD/prettier_action@v4.3
