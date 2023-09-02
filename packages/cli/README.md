@@ -1,4 +1,4 @@
-# ui-ts/cli
+# ui-ts-cli
 
 Initializes a `ui-ts` project from a handful of templates
 
@@ -13,7 +13,7 @@ You can either use `npx`:
 Or download globally:
 
 ```
-> npm i -g @ui-ts/cli
+> npm i -g ui-ts-cli
 ```
 
 ## Usage
