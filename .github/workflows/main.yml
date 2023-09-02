@@ -68,9 +68,10 @@ jobs:
           with:
             # Make sure the actual branch is checked out when running on pull requests
             ref: ${{ github.head_ref }}
+            fetch-depth: 0
   
         - name: Formatting
           uses: creyD/prettier_action@v4.3
           with:
             prettier_options: --write **/*.{ts,mjs,js,json,md}
-            commit_message: 'chore: prettify code'
+            same_commit: true
