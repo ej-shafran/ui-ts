@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "./lib/index.js",
+  "files": ["lib"],
   "homepage": "http://127.0.0.1",
   "scripts": {
     "build": "tsup src/** --dts --format esm,cjs --out-dir lib",
