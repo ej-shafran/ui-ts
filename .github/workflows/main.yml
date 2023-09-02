@@ -49,7 +49,7 @@ jobs:
         run: pnpm --if-present -r test
 
       - name: Linting
-        run: pnpm  --if present -r run lint
+        run: pnpm  --if-present -r run lint
 
       - name: Check TypeScript (Using `AreTheTypesWrong`)
         run: pnpm --if-present -r types
