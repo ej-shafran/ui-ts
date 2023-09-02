@@ -1,0 +1,64 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  ui-ts:
+    strategy:
+      matrix:
+        node-version: [16.x, 18.x, 20.x]
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Use NodeJS ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install PNPM
+        uses: pnpm/action-setup@v2
+        with:
+          version: latest
+          run_install: false
+          
+      - name: Get PNPM Store Directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - uses: actions/cache@v3
+        name: Setup PNPM Cache
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install Dependencies
+        run: pnpm install
+
+      - name: Build
+        run: pnpm --if-present -r build
+
+      - name: Tests
+        run: pnpm --if-present -r test
+
+      - name: Linting
+        run: pnpm  --if-present -r run lint
+
+      - name: Check TypeScript (Using `AreTheTypesWrong`)
+        run: pnpm --if-present -r types
+
+      - name: Check Spelling
+        run: pnpm --if-present -r spell
+
+      - name: Formatting
+        uses: creyD/prettier_action@v4.3
+        with:
+          prettier_options: --write **/*.*
+          commit_message: 'chore: prettify code'
