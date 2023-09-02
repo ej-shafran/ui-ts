@@ -1,8 +1,10 @@
 import * as E from "fp-ts/lib/Either";
 import * as TE from "fp-ts/lib/TaskEither";
-import { UnknownError } from "./unknown-error";
+import { pipe } from "fp-ts/function";
 
-export function getChar(prompt: string): TE.TaskEither<UnknownError, string> {
+import { UnknownError, UserInitiated } from "./errors";
+
+function getChar(prompt: string): TE.TaskEither<UnknownError, string> {
   return () => {
     process.stderr.write(prompt);
     return new Promise<E.Either<UnknownError, string>>((resolve) => {
@@ -29,3 +31,12 @@ export function getChar(prompt: string): TE.TaskEither<UnknownError, string> {
     });
   };
 }
+
+export const promptToOverride = (dirPath: string) =>
+  pipe(
+    getChar(`"${dirPath}" is not empty. Proceed anyways? (Y/n)`),
+    TE.map((c) => c.toLowerCase() === "y"),
+    TE.flatMap((response) =>
+      response ? TE.right(undefined as void) : TE.left(UserInitiated),
+    ),
+  );
