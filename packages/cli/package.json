@@ -1,20 +1,21 @@
 {
-  "name": "@ui-ts/cli",
+  "name": "ui-ts-cli",
   "version": "1.0.0",
-  "description": "",
+  "description": "Initializes a `ui-ts` project from a handful of templates",
   "main": "index.js",
   "bin": {
-    "ui-ts": "./bin/index.js"
+    "ui-ts": "bin/index.js"
   },
   "scripts": {
     "test": "vitest",
+    "prepublish": "npm run build",
     "build": "node ./build.mjs",
     "lint": "eslint ./src --ext .js,.jsx,.ts,.tsx --max-warnings 0",
     "spell": "cspell 'src/*.*' 'docs/*.md'"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "ej-shafran",
+  "license": "MIT",
   "devDependencies": {
     "@types/node": "^20.5.8",
     "@typescript-eslint/eslint-plugin": "^6.5.0",
@@ -28,5 +29,16 @@
     "fp-ts": "^2.16.1",
     "mri": "^1.2.0",
     "ts-adt": "^2.1.2"
-  }
+  },
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ej-shafran/ui-ts.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ej-shafran/ui-ts/issues"
+  },
+  "homepage": "https://github.com/ej-shafran/ui-ts#readme"
 }
