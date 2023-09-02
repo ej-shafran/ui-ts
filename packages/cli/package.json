@@ -1,9 +1,12 @@
 {
   "name": "ui-ts-cli",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Initializes a `ui-ts` project from a handful of templates",
   "main": "index.js",
-  "files": ["bin", "static"],
+  "files": [
+    "bin",
+    "static"
+  ],
   "bin": {
     "ui-ts": "bin/index.js"
   },
