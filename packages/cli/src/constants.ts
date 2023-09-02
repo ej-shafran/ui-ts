@@ -5,6 +5,8 @@ const QUOTED_TEMPLATES = TEMPLATES.map((template) => `"${template}"`);
 export const TEMPLATES_STRING =
   QUOTED_TEMPLATES.slice(0, -1).join(", ") + " or " + QUOTED_TEMPLATES.at(-1);
 
+export const PLACEHOLDER = "PROJECT_NAME";
+
 export const USAGE = `\
 Usage:
   ui-ts [-t TEMPLATE] [PATH]

@@ -1,11 +1,12 @@
 import * as TE from "fp-ts/lib/TaskEither";
 import * as A from "fp-ts/Array";
-import { pipe } from "fp-ts/function";
+import { constVoid, flow, pipe } from "fp-ts/function";
 
-import { cp, mkdir, readdir } from "fs/promises";
+import { cp, mkdir, readFile, readdir, writeFile } from "fs/promises";
 import { join } from "path";
 
 import { FileExists, UnknownError } from "./errors";
+import { PLACEHOLDER } from "./constants";
 
 export const isDirectoryEmpty = (dirPath: string) =>
   pipe(
@@ -34,4 +35,35 @@ export const copyTemplate = (template: string, target: string) =>
         return UnknownError(error);
       }
     },
+  );
+
+const walkDir = (
+  dirName: string,
+  cb: (fileName: string) => TE.TaskEither<UnknownError, void>,
+): TE.TaskEither<UnknownError, void> => {
+  return pipe(
+    TE.tryCatch(() => readdir(dirName, { withFileTypes: true }), UnknownError),
+    TE.flatMap(
+      flow(
+        A.map((file) =>
+          file.isDirectory()
+            ? walkDir(join(dirName, file.name), cb)
+            : cb(join(dirName, file.name)),
+        ),
+        TE.sequenceArray,
+        TE.map(constVoid),
+      ),
+    ),
+  );
+};
+
+export const replaceProjectName = (dirPath: string, projectName: string) =>
+  walkDir(dirPath, (fileName) =>
+    pipe(
+      TE.tryCatch(() => readFile(fileName, "utf-8"), UnknownError),
+      TE.map((contents) => contents.replaceAll(PLACEHOLDER, projectName)),
+      TE.flatMap((contents) =>
+        TE.tryCatch(() => writeFile(fileName, contents), UnknownError),
+      ),
+    ),
   );

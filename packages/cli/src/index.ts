@@ -7,9 +7,20 @@ import { pipe } from "fp-ts/function";
 import { basename } from "path";
 
 import { parseArgs } from "./args";
-import { copyTemplate, isDirectoryEmpty } from "./fs";
+import { copyTemplate, isDirectoryEmpty, replaceProjectName } from "./fs";
 import { promptToOverride } from "./prompt";
 import { handleErrors } from "./errors";
+
+const logDone = (directory: string, dirName: string) => {
+  const cdCommand = directory === process.cwd() ? "" : `  cd ${dirName}\n`;
+  return log(`
+All done! 🥳
+
+You can run
+${cdCommand}  npm install
+  npm run dev
+To get started!`);
+};
 
 const main = pipe(
   TE.Do,
@@ -18,10 +29,11 @@ const main = pipe(
   TE.tap(({ isEmpty, args }) =>
     !isEmpty ? promptToOverride(args.directory) : TE.right(undefined as void),
   ),
-  TE.tapIO(({ args }) =>
-    log(`Initializing a project in "${basename(args.directory)}"...`),
-  ),
+  TE.let("dirName", ({ args }) => basename(args.directory)),
+  TE.tapIO(({ dirName }) => log(`Initializing a project in "${dirName}"...`)),
   TE.tap(({ args }) => copyTemplate(args.template, args.directory)),
+  TE.tap(({ args, dirName }) => replaceProjectName(args.directory, dirName)),
+  TE.tapIO(({ args, dirName }) => logDone(args.directory, dirName)),
   TE.match(handleErrors, () => 0),
 );
 
