@@ -1,7 +1,7 @@
 {
   "name": "ui-ts",
   "version": "1.0.1",
-  "description": "",
+  "description": "A tiny-tiny UI library that uses JSX and `fp-ts` to make for easy small UIs.",
   "main": "./lib/index.js",
   "files": [
     "lib"
@@ -31,7 +31,7 @@
   },
   "keywords": [],
   "author": "ej-shafran",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "fp-ts": "^2.16.1",
     "immer": "^10.0.2",
@@ -51,5 +51,18 @@
     "tsup": "^7.2.0",
     "typescript": "^5.2.2",
     "vitest": "^0.34.3"
+  },
+  "types": "./lib/index.d.ts",
+  "directories": {
+    "doc": "docs",
+    "lib": "lib",
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ej-shafran/ui-ts.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ej-shafran/ui-ts/issues"
   }
 }
