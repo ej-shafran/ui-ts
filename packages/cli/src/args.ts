@@ -1,6 +1,9 @@
-import * as E from "fp-ts/lib/Either";
-import * as TE from "fp-ts/lib/TaskEither";
+import * as E from "fp-ts/Either";
+import * as TE from "fp-ts/TaskEither";
+import { pipe } from "fp-ts/function";
+
 import mri from "mri";
+
 import { DEFAULT_TEMPLATE, TEMPLATES, USAGE } from "./constants";
 import {
   UnrecognizedFlag,
@@ -8,7 +11,6 @@ import {
   UserInitiated,
 } from "./errors";
 import { join } from "path";
-import { pipe } from "fp-ts/lib/function";
 
 export type Flags = {
   template: string;

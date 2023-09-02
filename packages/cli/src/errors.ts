@@ -1,4 +1,5 @@
 import { ADT, match } from "ts-adt";
+
 import { TEMPLATES_STRING, USAGE } from "./constants";
 
 export type CLIError = ADT<{

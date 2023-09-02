@@ -1,4 +1,4 @@
-import * as TE from "fp-ts/lib/TaskEither";
+import * as TE from "fp-ts/TaskEither";
 import * as A from "fp-ts/Array";
 import { constVoid, flow, pipe } from "fp-ts/function";
 
