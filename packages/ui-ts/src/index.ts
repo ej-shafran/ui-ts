@@ -4,6 +4,8 @@
 
 export * from "./UI";
 
+import { Element as UIElement } from "./UI";
+
 // UI-TS UNIQUE
 
 interface Attributes<T> {
@@ -1535,6 +1537,8 @@ declare global {
   // Needs to be a namespace to properly work
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace JSX {
+    type Element = UIElement;
+
     interface IntrinsicElements {
       // HTML
       a: DetailedHTMLProps<

@@ -17,16 +17,16 @@ import * as DOM from "./DOM";
  * @category model
  * @since 1.0.0
  */
-export type TagName = keyof HTMLElementTagNameMap;
+export type TagName = keyof JSX.IntrinsicElements;
 
 /**
  * @category model
  * @since 1.0.0
  */
-export type Element = ADT<{
+export type Element<TTag extends TagName = TagName> = ADT<{
   Root: {
-    tagName: TagName;
-    props: Record<string, unknown> | null;
+    tagName: TTag;
+    props: JSX.IntrinsicElements[TTag] | null;
     children: Element[];
   };
   Text: {
@@ -162,11 +162,7 @@ const addProp: PropertyCallback = matchProp(
   DOM.setAttribute,
 );
 
-const mapProps = (
-  cb: PropertyCallback,
-  domNode: HTMLElement,
-  props: Record<string, unknown>,
-) =>
+const mapProps = (cb: PropertyCallback, domNode: HTMLElement, props: object) =>
   pipe(
     props,
     R.mapWithIndex((k, a) => pipe(domNode, cb(k, a))),
@@ -176,7 +172,7 @@ const mapProps = (
   );
 
 const updateDOM =
-  (prev: Record<string, unknown>, next: Record<string, unknown>) =>
+  (prev: object, next: object) =>
   (domNode: HTMLElement): IO.IO<HTMLElement> => {
     return pipe(
       () => mapProps(removeProp, domNode, prev),
@@ -197,7 +193,9 @@ const createInstance: (elem: Element) => IO.IO<Instance> = (elem) => {
       Root: (elem) =>
         pipe(
           IO.Do,
-          IO.bind("domNode", () => DOM.createElement(elem.tagName)),
+          IO.bind("domNode", () =>
+            DOM.createElement(elem.tagName as keyof HTMLElementTagNameMap),
+          ),
           IO.tap(({ domNode }) =>
             pipe(domNode, updateDOM({}, elem.props ?? {})),
           ),
