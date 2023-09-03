@@ -744,7 +744,7 @@ interface HTMLAttributes<T> extends AriaAttributes, DOMAttributes<T> {
   // Standard HTML Attributes
   accessKey?: string | undefined;
   autoFocus?: boolean | undefined;
-  className?: string | undefined;
+  class?: string | undefined;
   contentEditable?: Booleanish | "inherit" | undefined;
   contextMenu?: string | undefined;
   dir?: string | undefined;
@@ -1246,7 +1246,7 @@ interface SVGTextElementAttributes<T> extends SVGProps<T> {}
 
 interface SVGAttributes<T> extends AriaAttributes, DOMAttributes<T> {
   // Attributes which also defined in HTMLAttributes
-  className?: string | undefined;
+  class?: string | undefined;
   color?: string | undefined;
   height?: number | string | undefined;
   id?: string | undefined;
